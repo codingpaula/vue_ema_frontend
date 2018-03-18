@@ -47,32 +47,15 @@ export default {
   },
   methods: {
     switchButton: function (mode) {
-      if (this.currentState) {
-        this.currentState = false
-        if (mode) {
-          // TODO update matrix
-          console.log('Changing matrix missing implementation')
-          this.$emit('topic', { topic: this.topic.id })
-          this.emitTopicOnOrOff(false)
-          console.log('emitted event, topic id: ' + this.topic.id)
-        }
-      } else {
-        this.currentState = true
-        if (mode) {
-          // TODO update matrix
-          console.log('Changing matrix missing implementation')
-          this.$emit('topic', { topic: this.topic.id })
-          this.emitTopicOnOrOff(true)
-          console.log('emitted event, topic id: ' + this.topic.id)
-        }
+      this.currentState = !this.currentState
+      if (mode) {
+        this.emitTopicOnOrOff(this.currentState)
+        console.log('SidebarTopic: missing matrix change')
       }
     },
     emitTopicOnOrOff: function (mode) {
-      if (mode) {
-        EventBus.$emit('TOPIC_ON', this.topic.id)
-      } else {
-        EventBus.$emit('TOPIC_OFF', this.topic.id)
-      }
+      var event = mode ? 'TOPIC_ON' : 'TOPIC_OFF'
+      EventBus.$emit(event, this.topic.id)
     }
   }
 }
