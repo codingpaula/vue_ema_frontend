@@ -48,14 +48,10 @@ export default {
   methods: {
     switchButton: function (mode) {
       this.currentState = !this.currentState
-      if (mode) {
-        this.emitTopicOnOrOff(this.currentState)
-        console.log('SidebarTopic: missing matrix change')
-      }
+      if (mode) this.emitTopicOnOrOff()
     },
-    emitTopicOnOrOff: function (mode) {
-      var event = mode ? 'TOPIC_ON' : 'TOPIC_OFF'
-      EventBus.$emit(event, this.topic.id)
+    emitTopicOnOrOff: function () {
+      EventBus.$emit('TOGGLE_TOPIC', this.topic.id)
     }
   }
 }

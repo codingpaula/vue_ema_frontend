@@ -16,7 +16,7 @@
     </sidebar-topic>
     <div class="btn-group col-12 topic-button-group d-flex"
       aria-label="topic button" role="group">
-      <button type="button" class="btn topic-button w-100"
+      <button type="button" class="btn topic-button w-100 settings-button"
         @click="changeAll">
         <span v-if="allOnOrOff">unselect all topics</span>
         <span v-else>select all topics</span>
@@ -75,5 +75,8 @@ export default {
 .settings {
   border-top: 1px solid black;
   margin-top: 10px;
+}
+.settings-button {
+  background-color: #646563;
 }
 </style>
