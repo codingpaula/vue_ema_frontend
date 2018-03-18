@@ -76,4 +76,7 @@ export default {
   color: white;
   border: 1px solid white;
 }
+.topic-name {
+  white-space: normal;
+}
 </style>

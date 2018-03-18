@@ -1,9 +1,9 @@
 <template>
   <div class="matrix row">
-    <div class="col-3">
+    <div class="col-2">
       <matrix-sidebar v-bind:topics="topicList"></matrix-sidebar>
     </div>
-    <div class="col-9">
+    <div class="col-10">
       <matrix-matrix v-bind:topics="topicList"></matrix-matrix>
     </div>
   </div>
