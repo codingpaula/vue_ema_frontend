@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <p>{{ topic.name }}</p>
+    <h2>{{ topic.name }}</h2>
     <matrix-one-task
       v-for="task in tasks"
       :key="task.id"

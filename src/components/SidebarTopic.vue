@@ -18,7 +18,8 @@
 </template>
 
 <script>
-// TODO on and off state statt hin und hergeschubse
+import EventBus from '@/event-bus'
+
 var styleStringBack = 'background-color: #'
 var styleStringFont = '; color: #'
 
@@ -52,6 +53,7 @@ export default {
           // TODO update matrix
           console.log('Changing matrix missing implementation')
           this.$emit('topic', { topic: this.topic.id })
+          this.emitTopicOnOrOff(false)
           console.log('emitted event, topic id: ' + this.topic.id)
         }
       } else {
@@ -60,8 +62,16 @@ export default {
           // TODO update matrix
           console.log('Changing matrix missing implementation')
           this.$emit('topic', { topic: this.topic.id })
+          this.emitTopicOnOrOff(true)
           console.log('emitted event, topic id: ' + this.topic.id)
         }
+      }
+    },
+    emitTopicOnOrOff: function (mode) {
+      if (mode) {
+        EventBus.$emit('TOPIC_ON', this.topic.id)
+      } else {
+        EventBus.$emit('TOPIC_OFF', this.topic.id)
       }
     }
   }

@@ -31,6 +31,7 @@
 
 <script>
 import SidebarTopic from '@/components/SidebarTopic'
+import EventBus from '@/event-bus'
 
 export default {
   name: 'MatrixSidebar',
@@ -45,8 +46,12 @@ export default {
     changeAll: function () {
       if (this.allOnOrOff) {
         this.allOnOrOff = false
+        EventBus.$emit('ALL_TOPICS_OFF', null)
+        // console.log('MatrixSidebar: emitted ALL_TOPICS_OFF')
       } else {
         this.allOnOrOff = true
+        EventBus.$emit('ALL_TOPICS_ON', null)
+        // console.log('MatrixSidebar: emitted ALL_TOPICS_ON')
       }
     },
     handleTButton: function (number) {

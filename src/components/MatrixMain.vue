@@ -12,6 +12,7 @@
 <script>
 import MatrixSidebar from '@/components/MatrixSidebar'
 import MatrixMatrix from '@/components/MatrixMatrix'
+import EventBus from '@/event-bus'
 
 export default {
   name: 'MatrixMain',
@@ -93,6 +94,20 @@ export default {
         }
       ]
     }
+  },
+  mounted () {
+    EventBus.$on('TOPIC_ON', function (payLoad) {
+      console.log('got a topic ON event with ' + payLoad)
+    })
+    EventBus.$on('TOPIC_OFF', function (payLoad) {
+      console.log('got a topic OFF event with ' + payLoad)
+    })
+    EventBus.$on('ALL_TOPICS_ON', function (payLoad) {
+      console.log('got ALL_TOPICS_ON event')
+    })
+    EventBus.$on('ALL_TOPICS_OFF', function (payLoad) {
+      console.log('got ALL_TOPICS_OFF event')
+    })
   }
 }
 </script>

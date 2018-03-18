@@ -1,9 +1,10 @@
 <template lang="html">
-  <div>
+  <div class="row">
     <matrix-one-topic
       v-for="topic in topics"
       :key="topic.id"
-      v-bind:topic="topic">
+      v-bind:topic="topic"
+      class="col">
     </matrix-one-topic>
   </div>
 </template>
@@ -19,7 +20,7 @@ export default {
   },
   data: function () {
     return {
-      
+
     }
   }
 }
