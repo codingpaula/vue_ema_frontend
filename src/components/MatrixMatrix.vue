@@ -4,16 +4,13 @@
       v-for="topic in topicList"
       :key="topic.id"
       v-bind:topic="topic"
-      class="col"
       v-show="topic.on">
     </matrix-one-topic>
-    <p>{{ topicList }}</p>
   </div>
 </template>
 
 <script>
 import MatrixOneTopic from '@/components/MatrixOneTopic'
-import Vue from 'vue'
 import EventBus from '@/event-bus'
 
 export default {

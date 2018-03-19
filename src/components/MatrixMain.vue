@@ -31,7 +31,7 @@ export default {
               id: 1,
               name: 'do sth',
               dueDate: '17.08.2018 10:00:00',
-              importance: 78
+              importance: 10
             },
             {
               id: 2,
