@@ -1,3 +1,4 @@
+<!-- main login component -->
 <template lang="html">
   <div>
     <p>You are at login!</p>
@@ -5,6 +6,7 @@
 </template>
 
 <script>
+// TODO login form and page
 export default {
   name: 'LogIn'
 }

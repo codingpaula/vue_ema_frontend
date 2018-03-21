@@ -1,3 +1,4 @@
+<!-- main component for accessing topics, tasks and matrix infos -->
 <template>
   <div class="matrix row">
     <div class="col-2">
@@ -21,6 +22,8 @@ export default {
   },
   data: function() {
     return {
+      // TODO really accessing topics and tasks
+      // dummy data
       topicList: [
         {
           id: 1,

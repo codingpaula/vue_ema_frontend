@@ -1,3 +1,4 @@
+<!-- main component for a user's profile -->
 <template>
   <div class="profile-main">
     <p>You are at Profile!</p>

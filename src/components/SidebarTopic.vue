@@ -1,3 +1,4 @@
+<!-- displays button for one topic -->
 <template>
   <div class="btn-group col-12 topic-button-group d-flex"
     aria-label="topic button" role="group">
@@ -20,9 +21,6 @@
 <script>
 import EventBus from '@/event-bus'
 
-var styleStringBack = 'background-color: #'
-var styleStringFont = '; color: #'
-
 export default {
   name: 'SidebarTopic',
   props: [
@@ -30,13 +28,19 @@ export default {
     'allOnOrOff'
   ],
   data: function () {
+    var styleStringBack = 'background-color: #'
+    var styleStringFont = '; color: #'
+    var greyBack = 'DADDD8'
+    var whiteFont = 'FFFFFF'
+
     return {
       currentState: true,
-      onState: styleStringBack + this.topic.color + styleStringFont + 'ffffff',
-      offState: styleStringBack + 'DADDD8' + styleStringFont + this.topic.color
+      onState: styleStringBack + this.topic.color + styleStringFont + whiteFont,
+      offState: styleStringBack + greyBack + styleStringFont + this.topic.color
     }
   },
   watch: {
+    // needs watch to call switchButton function
     allOnOrOff: function () {
       if (this.allOnOrOff && !this.currentState) {
         this.switchButton(false)
@@ -46,10 +50,12 @@ export default {
     }
   },
   methods: {
+    // used to switch style of button and with mode true to emit event
     switchButton: function (mode) {
       this.currentState = !this.currentState
       if (mode) this.emitTopicOnOrOff()
     },
+    // emit event that topic was toggled
     emitTopicOnOrOff: function () {
       EventBus.$emit('TOGGLE_TOPIC', this.topic.id)
     }

@@ -1,9 +1,11 @@
+<!-- sidebar component -->
 <template>
   <div class="sidebar row align-items-center">
     <div class="col-9">
       <h2>Topics</h2>
     </div>
     <div class="col-3 add-topic">
+      <!-- TODO functionality add topic -->
       <i class="fas fa-plus"></i>
     </div>
     <hr/>
@@ -11,8 +13,7 @@
       v-for="topic in topics"
       :key="topic.id"
       v-bind:topic="topic"
-      v-bind:allOnOrOff="allOnOrOff"
-      v-on:topic="handleTButton(topic.id)">
+      v-bind:allOnOrOff="allOnOrOff">
     </sidebar-topic>
     <div class="btn-group col-12 topic-button-group d-flex"
       aria-label="topic button" role="group">
@@ -43,6 +44,7 @@ export default {
     return { allOnOrOff: true }
   },
   methods: {
+    // change variable allOnOrOff locally and emit event ALL_TOPICS_ON/OFF
     changeAll: function () {
       if (this.allOnOrOff) {
         this.allOnOrOff = false
@@ -53,9 +55,6 @@ export default {
         EventBus.$emit('ALL_TOPICS_ON', null)
         // console.log('MatrixSidebar: emitted ALL_TOPICS_ON')
       }
-    },
-    handleTButton: function (number) {
-      console.log('got event with topic id: ' + number)
     }
   }
 }

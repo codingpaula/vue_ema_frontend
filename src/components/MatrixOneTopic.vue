@@ -1,3 +1,4 @@
+<!-- component to display one topic -->
 <template lang="html">
   <v-layer ref="layer" :config="configTopic">
     <matrix-one-task
@@ -20,11 +21,13 @@ export default {
   },
   data: function () {
     return {
+      // separate values to hand it to MatrixOneTask
       color: this.topic.color,
       tasks: this.topic.tasks
     }
   },
   computed: {
+    // use to toggle toipcs on/off by sidebar events
     configTopic () {
       return {
         visible: this.topic.on

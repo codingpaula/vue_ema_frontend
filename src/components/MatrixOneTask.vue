@@ -1,8 +1,11 @@
+<!-- component to display one task with dot and description -->
 <template lang="html">
+  <!-- dot in canvas -->
   <v-circle
     :config="configTask"
     @dragend="alertDragEnd">
   </v-circle>
+  <!-- TODO add description in canvas or over it? -->
   <!-- <div :style="styleDiv" class="task">
     <div :style="styleDot" class="task-dot"></div>
     <div :style="styleDiv" class="task-div">
@@ -23,13 +26,16 @@ var fontString = 'color: #'
 
 export default {
   name: 'MatrixOneTask',
+  // task infos + color of topic
   props: [ 'task', 'color' ],
   data: function () {
     return {
+      // style stuff for description
       fontColor: fontString + this.color,
       fullStar: 'fas fa-star',
       halfStar: 'fas fa-star-half',
       emptyStar: 'far fa-star',
+      // config for canvas element
       configTask: {
         x: this.calcDue(),
         y: this.calcImp(),
@@ -38,6 +44,7 @@ export default {
         stroke: this.color,
         strokeWidth: 1,
         draggable: true,
+        // only drag vertically
         dragBoundFunc: function(pos) {
           return {
             x: this.getAbsolutePosition().x,
@@ -48,24 +55,26 @@ export default {
     }
   },
   methods: {
+    // used to conditionally display the stars in description
     stars: function (number) {
       return this.task.importance < number ? true : false
     },
+    // TODO include size of matrix canvas
     calcImp: function () {
       return 300-3*this.task.importance
     },
+    // TODO include size of matrix canvas
+    // TODO how to transform dates into numbers?
     calcDue: function () {
       return this.task.dueDate*800
     },
+    // TODO add request to change task
     alertDragEnd: function () {
-      // TODO add request to change task
       console.log('did end drag of task ' + this.task.name)
     }
   },
   computed: {
-    styleDot () {
-      return 'border-color: #' + this.color + ';'
-    },
+    // styles with topic color and calculated values
     styleDiv () {
       var fontColor = 'color: #' + this.color + ';'
       var border = 'border-color: #' + this.color + ';'
