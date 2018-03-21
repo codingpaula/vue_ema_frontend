@@ -4,7 +4,8 @@ import Vue from 'vue'
 import VueKonva from 'vue-konva'
 // import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
-import '@/assets/fontawesome-all.js'
+// imported now in index.html via <script>
+// import '@/assets/fontawesome-all.js'
 // import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import App from './App'
