@@ -30,19 +30,22 @@ export default {
             {
               id: 1,
               name: 'do sth',
-              dueDate: '17.08.2018 10:00:00',
+              dueDate: 0.1,
+              dueDateString: '17.08.2018 10:00:00',
               importance: 10
             },
             {
               id: 2,
               name: 'sth else',
-              dueDate: '17.10.2018 10:00:00',
+              dueDate: 0.2,
+              dueDateString: '17.10.2018 10:00:00',
               importance: 66
             },
             {
               id: 3,
               name: 'else where',
-              dueDate: '01.09.2018 10:00:00',
+              dueDate: 0.3,
+              dueDateString: '01.09.2018 10:00:00',
               importance: 22
             }
           ]
@@ -55,13 +58,15 @@ export default {
             {
               id: 4,
               name: 'where you',
-              dueDate: '08.09.2018 10:00:00',
+              dueDate: 0.4,
+              dueDateString: '08.09.2018 10:00:00',
               importance: 44
             },
             {
               id: 5,
               name: 'you can',
-              dueDate: '18.10.2018 10:00:00',
+              dueDate: 0.5,
+              dueDateString: '18.10.2018 10:00:00',
               importance: 98
             }
           ]
@@ -74,19 +79,22 @@ export default {
             {
               id: 6,
               name: 'can laugh',
-              dueDate: '20.09.2018 10:00:00',
+              dueDate: 0.6,
+              dueDateString: '20.09.2018 10:00:00',
               importance: 33
             },
             {
               id: 7,
               name: 'laugh loud',
-              dueDate: '01.10.2018 10:00:00',
+              dueDate: 0.7,
+              dueDateString: '01.10.2018 10:00:00',
               importance: 29
             },
             {
               id: 8,
               name: 'loud cry',
-              dueDate: '15.09.2018 10:00:00',
+              dueDate: 0.8,
+              dueDateString: '15.09.2018 10:00:00',
               importance: 90
             }
           ]

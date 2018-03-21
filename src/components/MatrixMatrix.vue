@@ -1,11 +1,13 @@
 <template lang="html">
   <div class="row">
-    <matrix-one-topic
-      v-for="topic in topicList"
-      :key="topic.id"
-      v-bind:topic="topic"
-      v-show="topic.on">
-    </matrix-one-topic>
+    <v-stage ref="stage" :config="configKonva">
+      <matrix-one-topic
+        v-for="topic in topicList"
+        :key="topic.id"
+        v-bind:topic="topic"
+        v-show="topic.on">
+      </matrix-one-topic>
+    </v-stage>
   </div>
 </template>
 
@@ -25,7 +27,11 @@ export default {
       topicList.push(Object.assign({}, topic, { on: true }))
     })
     return {
-      topicList: topicList
+      topicList: topicList,
+      configKonva: {
+        width: 800,
+        height: 800
+      }
     }
   },
   methods: {

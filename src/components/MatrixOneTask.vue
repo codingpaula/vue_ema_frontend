@@ -1,14 +1,21 @@
 <template lang="html">
-  <div :style="styleDiv" class="task-div">
-    <h3 class="task-heading">{{ task.name }}</h3>
-    <p class="task-date">{{ task.dueDate }}</p>
-    <div class="task-imp-stars">
-      <i v-bind:class="stars(13) ? halfStar : fullStar"></i>
-      <i v-bind:class="stars(26) ? emptyStar : stars(38) ? halfStar : fullStar"></i>
-      <i v-bind:class="stars(51) ? emptyStar : stars(63) ? halfStar : fullStar"></i>
-      <i v-bind:class="stars(76) ? emptyStar : stars(88) ? halfStar : fullStar"></i>
+  <v-circle
+    :config="configTask"
+    @dragend="alertDragEnd">
+  </v-circle>
+  <!-- <div :style="styleDiv" class="task">
+    <div :style="styleDot" class="task-dot"></div>
+    <div :style="styleDiv" class="task-div">
+      <h3 class="task-heading">{{ task.name }}</h3>
+      <p class="task-date">{{ task.dueDate }}</p>
+      <div class="task-imp-stars">
+        <i v-bind:class="stars(13) ? halfStar : fullStar"></i>
+        <i v-bind:class="stars(26) ? emptyStar : stars(38) ? halfStar : fullStar"></i>
+        <i v-bind:class="stars(51) ? emptyStar : stars(63) ? halfStar : fullStar"></i>
+        <i v-bind:class="stars(76) ? emptyStar : stars(88) ? halfStar : fullStar"></i>
+      </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -22,7 +29,22 @@ export default {
       fontColor: fontString + this.color,
       fullStar: 'fas fa-star',
       halfStar: 'fas fa-star-half',
-      emptyStar: 'far fa-star'
+      emptyStar: 'far fa-star',
+      configTask: {
+        x: this.calcDue(),
+        y: this.calcImp(),
+        radius: 20,
+        fill: this.color,
+        stroke: this.color,
+        strokeWidth: 1,
+        draggable: true,
+        dragBoundFunc: function(pos) {
+          return {
+            x: this.getAbsolutePosition().x,
+            y: pos.y
+          }
+        }
+      }
     }
   },
   methods: {
@@ -30,14 +52,20 @@ export default {
       return this.task.importance < number ? true : false
     },
     calcImp: function () {
-      console.log('in calcImp')
-      return 3*this.task.importance + 'px'
+      return 300-3*this.task.importance
     },
     calcDue: function () {
-      return Math.random()*800 + 'px'
+      return this.task.dueDate*800
+    },
+    alertDragEnd: function () {
+      // TODO add request to change task
+      console.log('did end drag of task ' + this.task.name)
     }
   },
   computed: {
+    styleDot () {
+      return 'border-color: #' + this.color + ';'
+    },
     styleDiv () {
       var fontColor = 'color: #' + this.color + ';'
       var border = 'border-color: #' + this.color + ';'
@@ -52,6 +80,11 @@ export default {
 </script>
 
 <style scoped lang="css">
+.task-dot {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 10px;
+}
 .task-div {
   border-radius: 5px;
   border-style: solid;
