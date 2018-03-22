@@ -28,7 +28,7 @@ export default {
         {
           id: 1,
           name: 'shit',
-          color: '3D405B',
+          color: '#3D405B',
           tasks: [
             {
               id: 1,
@@ -56,7 +56,7 @@ export default {
         {
           id: 2,
           name: 'what',
-          color: 'E28413',
+          color: '#E28413',
           tasks: [
             {
               id: 4,
@@ -77,7 +77,7 @@ export default {
         {
           id: 3,
           name: 'this has to be longer',
-          color: 'D05353',
+          color: '#D05353',
           tasks: [
             {
               id: 6,

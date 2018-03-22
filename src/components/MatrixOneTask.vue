@@ -22,7 +22,7 @@
 </template>
 
 <script>
-var fontString = 'color: #'
+var fontString = 'color: '
 
 export default {
   name: 'MatrixOneTask',
@@ -76,8 +76,8 @@ export default {
   computed: {
     // styles with topic color and calculated values
     styleDiv () {
-      var fontColor = 'color: #' + this.color + ';'
-      var border = 'border-color: #' + this.color + ';'
+      var fontColor = 'color: ' + this.color + ';'
+      var border = 'border-color: ' + this.color + ';'
       var impYValue = 'top: ' + this.calcImp() + ';'
       var dueXValue = 'right: ' + this.calcDue() + ';'
       var result = fontColor + ' ' + border + ' '  + impYValue + ' ' + dueXValue

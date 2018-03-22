@@ -28,10 +28,10 @@ export default {
     'allOnOrOff'
   ],
   data: function () {
-    var styleStringBack = 'background-color: #'
-    var styleStringFont = '; color: #'
-    var greyBack = 'DADDD8'
-    var whiteFont = 'FFFFFF'
+    var styleStringBack = 'background-color: '
+    var styleStringFont = '; color: '
+    var greyBack = '#DADDD8'
+    var whiteFont = '#FFFFFF'
 
     return {
       currentState: true,

@@ -27,7 +27,7 @@ export default {
     }
   },
   computed: {
-    // use to toggle toipcs on/off by sidebar events
+    // use to toggle topics on/off by sidebar events
     configTopic () {
       return {
         visible: this.topic.on
