@@ -9,12 +9,12 @@
       <i class="fas fa-plus"></i>
     </div>
     <hr/>
-    <sidebar-topic
+    <m-sidebar-topic
       v-for="topic in topics"
       :key="topic.id"
       v-bind:topic="topic"
       v-bind:allOnOrOff="allOnOrOff">
-    </sidebar-topic>
+    </m-sidebar-topic>
     <div class="btn-group col-12 topic-button-group d-flex"
       aria-label="topic button" role="group">
       <button type="button" class="btn topic-button w-100 settings-button"
@@ -31,13 +31,13 @@
 </template>
 
 <script>
-import SidebarTopic from '@/components/SidebarTopic'
+import MSidebarTopic from '@/components/MSidebarTopic'
 import EventBus from '@/event-bus'
 
 export default {
-  name: 'MatrixSidebar',
+  name: 'MSidebar',
   components: {
-    SidebarTopic
+    MSidebarTopic
   },
   props: [ 'topics' ],
   data: function () {

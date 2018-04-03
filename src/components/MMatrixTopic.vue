@@ -1,23 +1,23 @@
 <!-- component to display one topic -->
 <template lang="html">
   <v-layer ref="layer" :config="configTopic">
-    <matrix-one-task
+    <m-matrix-topic-task
       v-for="task in tasks"
       :key="task.id"
       v-bind:task="task"
       v-bind:color="color">
-    </matrix-one-task>
+    </m-matrix-topic-task>
   </v-layer>
 </template>
 
 <script>
-import MatrixOneTask from '@/components/MatrixOneTask'
+import MMatrixTopicTask from '@/components/MMatrixTopicTask'
 
 export default {
-  name: 'MatrixOneTopic',
+  name: 'MMatrixTopic',
   props: [ 'topic' ],
   components: {
-    MatrixOneTask
+    MMatrixTopicTask
   },
   data: function () {
     return {

@@ -2,8 +2,11 @@
 <template lang="html">
   <!-- dot in canvas -->
   <v-circle
+    ref="circle"
     :config="configTask"
-    @dragend="alertDragEnd">
+    @dragend="alertDragEnd"
+    @mouseover="mouseOverDot"
+    @mouseout="mouseOutDot">
   </v-circle>
   <!-- TODO add description in canvas or over it? -->
   <!-- <div :style="styleDiv" class="task">
@@ -22,10 +25,10 @@
 </template>
 
 <script>
-var fontString = 'color: '
+const fontString = 'color: '
 
 export default {
-  name: 'MatrixOneTask',
+  name: 'MMatrixTopicTask',
   // task infos + color of topic
   props: [ 'task', 'color' ],
   data: function () {
@@ -35,14 +38,18 @@ export default {
       fullStar: 'fas fa-star',
       halfStar: 'fas fa-star-half',
       emptyStar: 'far fa-star',
+      circle: null,
+      layer: null,
+      stage: null,
       // config for canvas element
       configTask: {
         x: this.calcDue(),
         y: this.calcImp(),
-        radius: 20,
+        radius: 15,
         fill: this.color,
         stroke: this.color,
         strokeWidth: 1,
+        opacity: 0.8,
         draggable: true,
         // only drag vertically
         dragBoundFunc: function(pos) {
@@ -54,6 +61,15 @@ export default {
       }
     }
   },
+  mounted () {
+    // general stuff to do with canvas konva
+    var vm = this
+    setTimeout(function() {
+      vm.circle = vm.$refs.circle.getStage()
+      vm.layer = vm.circle.parent
+      vm.stage = vm.layer.parent
+    }, 0)
+  },
   methods: {
     // used to conditionally display the stars in description
     stars: function (number) {
@@ -61,16 +77,35 @@ export default {
     },
     // TODO include size of matrix canvas
     calcImp: function () {
-      return 300-3*this.task.importance
+      var newImp = 300-3*this.task.importance
+      return newImp
     },
     // TODO include size of matrix canvas
     // TODO how to transform dates into numbers?
     calcDue: function () {
-      return this.task.dueDate*800
+      var newDue = this.task.dueDate*800
+      return newDue
     },
     // TODO add request to change task
     alertDragEnd: function () {
-      console.log('did end drag of task ' + this.task.name)
+      if (this.stage == null) {
+        console.log('this.stage is null')
+        this.circle = this.$refs.circle.getStage()
+        this.layer = this.circle.parent
+        this.stage = this.layer.parent
+      }
+      const mousePos = this.stage.getPointerPosition()
+      this.setImp(mousePos.y)
+    },
+    setImp: function (newImp) {
+      this.configTask.y = newImp
+      // TODO server communication to change imp of task
+    },
+    mouseOverDot: function () {
+      this.configTask.opacity = 1
+    },
+    mouseOutDot: function () {
+      this.configTask.opacity = 0.8
     }
   },
   computed: {

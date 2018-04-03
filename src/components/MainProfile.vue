@@ -1,13 +1,13 @@
 <!-- main component for a user's profile -->
 <template>
-  <div class="profile-main">
+  <div class="main-profile">
     <p>You are at Profile!</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ProfileMain'
+  name: 'MainProfile'
 }
 </script>
 

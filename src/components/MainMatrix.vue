@@ -2,23 +2,23 @@
 <template>
   <div class="matrix row">
     <div class="col-2">
-      <matrix-sidebar v-bind:topics="topicList"></matrix-sidebar>
+      <m-sidebar v-bind:topics="topicList"></m-sidebar>
     </div>
     <div class="col-10">
-      <matrix-matrix v-bind:topics="topicList"></matrix-matrix>
+      <m-matrix v-bind:topics="topicList"></m-matrix>
     </div>
   </div>
 </template>
 
 <script>
-import MatrixSidebar from '@/components/MatrixSidebar'
-import MatrixMatrix from '@/components/MatrixMatrix'
+import MSidebar from '@/components/MSidebar'
+import MMatrix from '@/components/MMatrix'
 
 export default {
-  name: 'MatrixMain',
+  name: 'MainMatrix',
   components: {
-    MatrixSidebar,
-    MatrixMatrix
+    MSidebar,
+    MMatrix
   },
   data: function() {
     return {

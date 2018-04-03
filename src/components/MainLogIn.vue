@@ -8,7 +8,7 @@
 <script>
 // TODO login form and page
 export default {
-  name: 'LogIn'
+  name: 'MainLogIn'
 }
 </script>
 

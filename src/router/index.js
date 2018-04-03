@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import HelloWorld from '@/components/HelloWorld'
-import MatrixMain from '@/components/MatrixMain'
+import MainMatrix from '@/components/MainMatrix'
 import NotFoundComponent from '@/components/NotFoundComponent'
-import ProfileMain from '@/components/ProfileMain'
-import LogInMain from '@/components/LogInMain'
+import MainProfile from '@/components/MainProfile'
+import MainLogIn from '@/components/MainLogIn'
 
 Vue.use(Router)
 
@@ -20,17 +20,17 @@ export default new Router({
     {
       path: '/matrix',
       name: 'Matrix',
-      component: MatrixMain
+      component: MainMatrix
     },
     {
       path: '/profile',
       name: 'Profile',
-      component: ProfileMain
+      component: MainProfile
     },
     {
       path: '/login',
       name: 'LogIn',
-      component: LogInMain
+      component: MainLogIn
     },
     {
       path: '*',

@@ -22,7 +22,7 @@
 import EventBus from '@/event-bus'
 
 export default {
-  name: 'SidebarTopic',
+  name: 'MSidebarTopic',
   props: [
     'topic',
     'allOnOrOff'

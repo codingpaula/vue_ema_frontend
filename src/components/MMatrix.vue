@@ -2,25 +2,25 @@
 <template lang="html">
   <div class="row">
     <v-stage ref="stage" :config="configKonva">
-      <matrix-one-topic
+      <m-matrix-topic
         v-for="topic in topicList"
         :key="topic.id"
         v-bind:topic="topic"
         v-show="topic.on">
-      </matrix-one-topic>
+      </m-matrix-topic>
     </v-stage>
   </div>
 </template>
 
 <script>
-import MatrixOneTopic from '@/components/MatrixOneTopic'
+import MMatrixTopic from '@/components/MMatrixTopic'
 import EventBus from '@/event-bus'
 
 export default {
-  name: 'MatrixMatrix',
+  name: 'MMatrix',
   props: [ 'topics' ],
   components: {
-    MatrixOneTopic
+    MMatrixTopic
   },
   data: function () {
     var topicList = []
