@@ -2,10 +2,17 @@
 <template lang="html">
   <div class="row">
     <v-stage ref="stage" :config="configKonva">
+      <v-layer ref="arrows" :config="configArrows">
+        <v-arrow ref="xArrow" :config="configXArrow"></v-arrow>
+        <v-arrow ref="yArrow" :config="configYArrow"></v-arrow>
+        <v-line ref="yLine" :config="configYLine"></v-line>
+        <v-line ref="xLine" :config="configXLine"></v-line>
+      </v-layer>
       <m-matrix-topic
-        v-for="topic in topicList"
+        v-for="topic in topics"
         :key="topic.id"
         v-bind:topic="topic"
+        v-bind:dimensions="dimensions"
         v-show="topic.on">
       </m-matrix-topic>
     </v-stage>
@@ -13,57 +20,79 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import MMatrixTopic from '@/components/MMatrixTopic'
 import EventBus from '@/event-bus'
+import {HTTP} from '@/api-route'
 
 export default {
   name: 'MMatrix',
-  props: [ 'topics' ],
+  props: [ 'topics', 'dimensions' ],
   components: {
     MMatrixTopic
   },
   data: function () {
-    var topicList = []
-    // add property to track toggle in sidebar
-    this.topics.forEach(function(topic) {
-      topicList.push(Object.assign({}, topic, { on: true }))
-    })
     return {
-      topicList: topicList,
+      errors: [],
       // TODO settings with different sizes of canvas
       configKonva: {
-        width: 800,
-        height: 800
+        width: this.dimensions.width,
+        height: this.dimensions.height
+      },
+      configXArrow: {
+        points: [
+          25,
+          this.dimensions.height-25,
+          this.dimensions.width-25,
+          this.dimensions.height-25
+        ],
+        pointerLength: 20,
+        pointerWidth: 20,
+        fill: 'black',
+        stroke: 'black',
+        strokeWidth: 4
+      },
+      configYArrow: {
+        points: [
+          25,
+          this.dimensions.height-25,
+          25,
+          25
+        ],
+        pointerLength: 20,
+        pointerWidth: 20,
+        fill: 'black',
+        stroke: 'black',
+        strokeWidth: 4
+      },
+      configYLine: {
+        points: [
+          this.dimensions.width/2,
+          this.dimensions.height-25,
+          this.dimensions.width/2,
+          25
+        ],
+        fill: 'black',
+        stroke: 'black',
+        strokeWidth: 2
+      },
+      configXLine: {
+        points: [
+          25,
+          this.dimensions.height/2,
+          this.dimensions.width-25,
+          this.dimensions.height/2
+        ],
+        fill: 'black',
+        stroke: 'black',
+        strokeWidth: 2
+      },
+      configArrows: {
+        visible: true
       }
     }
   },
-  methods: {
-    // turn tasks of one topic on/off
-    switchTopic: function(topic) {
-      var index = this.topicList.findIndex(function(x) {
-        if (x.id == topic) return true
-      })
-      this.topicList[index].on = !this.topicList[index].on
-    },
-    // turn all tasks on
-    allTopicsOn: function() {
-      this.topicList.forEach(function(topic) {
-        if (!topic.on) topic.on = true
-      })
-    },
-    // turn all tasks off
-    allTopicsOff: function () {
-      this.topicList.forEach(function(topic) {
-        if (topic.on) topic.on = false
-      })
-    }
-  },
-  // eventListeners for event bus for toggle events from sidebar
-  mounted: function () {
-    EventBus.$on('TOGGLE_TOPIC', (topic) => this.switchTopic(topic))
-    EventBus.$on('ALL_TOPICS_ON', (payLoad) => this.allTopicsOn())
-    EventBus.$on('ALL_TOPICS_OFF', (payLoad) => this.allTopicsOff())
-  }
 }
 </script>
 

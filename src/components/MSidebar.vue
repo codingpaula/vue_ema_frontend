@@ -12,8 +12,7 @@
     <m-sidebar-topic
       v-for="topic in topics"
       :key="topic.id"
-      v-bind:topic="topic"
-      v-bind:allOnOrOff="allOnOrOff">
+      v-bind:topic="topic">
     </m-sidebar-topic>
     <div class="btn-group col-12 topic-button-group d-flex"
       aria-label="topic button" role="group">
@@ -48,11 +47,11 @@ export default {
     changeAll: function () {
       if (this.allOnOrOff) {
         this.allOnOrOff = false
-        EventBus.$emit('ALL_TOPICS_OFF', null)
+        this.$store.commit('ALL_TOPICS_OFF')
         // console.log('MatrixSidebar: emitted ALL_TOPICS_OFF')
       } else {
         this.allOnOrOff = true
-        EventBus.$emit('ALL_TOPICS_ON', null)
+        this.$store.commit('ALL_TOPICS_ON')
         // console.log('MatrixSidebar: emitted ALL_TOPICS_ON')
       }
     }

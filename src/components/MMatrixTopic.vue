@@ -2,10 +2,11 @@
 <template lang="html">
   <v-layer ref="layer" :config="configTopic">
     <m-matrix-topic-task
-      v-for="task in tasks"
+      v-for="task in topic.task_set"
       :key="task.id"
       v-bind:task="task"
-      v-bind:color="color">
+      v-bind:dimensions="dimensions"
+      v-bind:color="topic.color">
     </m-matrix-topic-task>
   </v-layer>
 </template>
@@ -15,7 +16,7 @@ import MMatrixTopicTask from '@/components/MMatrixTopicTask'
 
 export default {
   name: 'MMatrixTopic',
-  props: [ 'topic' ],
+  props: [ 'topic', 'dimensions' ],
   components: {
     MMatrixTopicTask
   },
@@ -23,13 +24,8 @@ export default {
     return {
       // separate values to hand it to MatrixOneTask
       color: this.topic.color,
-      tasks: this.topic.tasks
-    }
-  },
-  computed: {
-    // use to toggle topics on/off by sidebar events
-    configTopic () {
-      return {
+      tasks: this.topic.task_set,
+      configTopic: {
         visible: this.topic.on
       }
     }
