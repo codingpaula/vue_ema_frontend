@@ -23,9 +23,18 @@ export default {
   data: function () {
     return {
       // separate values to hand it to MatrixOneTask
-      color: this.topic.color,
-      tasks: this.topic.task_set,
-      configTopic: {
+    }
+  },
+  computed: {
+    // color: function () {
+    //   return this.topic.color
+    // },
+    // tasks: function () {
+    //   return this.topic.task_set
+    // },
+    configTopic: function () {
+      //console.log('changed dots of topic '+this.topic.id)
+      return {
         visible: this.topic.on
       }
     }

@@ -6,7 +6,7 @@
     </div>
     <div class="col-3 add-topic">
       <!-- TODO functionality add topic -->
-      <i class="fas fa-plus"></i>
+      <font-awesome-icon :icon="plus" />
     </div>
     <hr/>
     <m-sidebar-topic
@@ -22,6 +22,29 @@
         <span v-else>select all topics</span>
       </button>
     </div>
+    <div class="row">
+      <div class="col-2 color-option" style="background-color: #001f54"></div>
+      <div class="col-2 color-option" style="background-color: #1f487e"></div>
+      <div class="col-2 color-option" style="background-color: #205b8d"></div>
+      <div class="col-2 color-option" style="background-color: #59a5d8"></div>
+      <div class="col-2 color-option" style="background-color: #5bc0eb"></div>
+      <div class="col-2 color-option" style="background-color: #926639"></div>
+      <div class="col-2 color-option" style="background-color: #6f5232"></div>
+      <div class="col-2 color-option" style="background-color: #4d4e4e"></div>
+      <div class="col-2 color-option" style="background-color: #2e4952"></div>
+      <div class="col-2 color-option" style="background-color: #048ba8"></div>
+      <div class="col-2 color-option" style="background-color: #137547"></div>
+      <div class="col-2 color-option" style="background-color: #528029"></div>
+      <div class="col-2 color-option" style="background-color: #8ea604"></div>
+      <div class="col-2 color-option" style="background-color: #eabc20"></div>
+      <div class="col-2 color-option" style="background-color: #f56416"></div>
+      <div class="col-2 color-option" style="background-color: #e71d36"></div>
+      <div class="col-2 color-option" style="background-color: #bf211e"></div>
+      <div class="col-2 color-option" style="background-color: #671934"></div>
+      <div class="col-2 color-option" style="background-color: #d90368"></div>
+      <div class="col-2 color-option" style="background-color: #a4036f"></div>
+
+    </div>
     <hr/>
     <div class="col-12 settings">
       <h2>Settings</h2>
@@ -30,17 +53,24 @@
 </template>
 
 <script>
+import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import faPlus from '@fortawesome/fontawesome-free-solid/faPlus'
+
 import MSidebarTopic from '@/components/MSidebarTopic'
 import EventBus from '@/event-bus'
 
 export default {
   name: 'MSidebar',
   components: {
-    MSidebarTopic
+    MSidebarTopic,
+    FontAwesomeIcon
   },
   props: [ 'topics' ],
   data: function () {
     return { allOnOrOff: true }
+  },
+  computed: {
+    plus () { return faPlus }
   },
   methods: {
     // change variable allOnOrOff locally and emit event ALL_TOPICS_ON/OFF
@@ -76,5 +106,8 @@ export default {
 }
 .settings-button {
   background-color: #646563;
+}
+.color-option {
+  height: 20px;
 }
 </style>

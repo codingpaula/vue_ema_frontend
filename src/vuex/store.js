@@ -14,8 +14,7 @@ const HTTP = axios.create({
 const store = new Vuex.Store({
   state: {
     matrixData: [],
-    loading: false,
-    showEditTopic: false
+    loading: false
   },
   actions: {
     LOAD_MATRIX_DATA: function ({ commit }) {
@@ -54,6 +53,8 @@ const store = new Vuex.Store({
     },
     // topics
     UPDATE_TOPIC: function ({ commit, state }, topic) {
+      console.log('in UPDATE_TOPIC')
+      topic.color = topic.color[0] == '#' ? topic.color.split('#')[1] : topic.color
       HTTP.put('topics/' + topic.id + '.json', topic).then((response) => {
         commit('EDIT_TOPIC', { topic: response.data })
       }, (err) => {
@@ -76,10 +77,8 @@ const store = new Vuex.Store({
     SET_MATRIX_DATA: (state, { matrixData }) => {
       state.matrixData = []
       matrixData.forEach(function(topic) {
-        topic.on = true
-        topic.color = '#'+topic.color
-        state.matrixData.push(topic)
-        // Object.assign({}, topic, { on: true, color: '#'+topic.color }))
+        var editedTopic = editTopicFromServer(topic)
+        state.matrixData.push(editedTopic)
       })
       console.log(state.matrixData)
     },
@@ -91,11 +90,14 @@ const store = new Vuex.Store({
     },
     // topics
     EDIT_TOPIC: (state, { topic }) => {
+      console.log('in EDIT_TOPIC: ' + topic.color)
       var index = findObjectInData(topic.id)
-      state.matrixData[index] = topic
+      var editedTopic = editTopicFromServer(topic)
+      state.matrixData[index] = editedTopic
     },
     ADD_TOPIC: (state, { topic }) => {
-      state.matrixData.push(topic)
+      var editedTopic = editTopicFromServer(topic)
+      state.matrixData.push(editedTopic)
     },
     // toggling topics
     TOGGLE_TOPIC: (state, topic_id) => {
@@ -111,9 +113,6 @@ const store = new Vuex.Store({
       state.matrixData.forEach(function(topic) {
         if (topic.on) topic.on = false
       })
-    },
-    TOGGLE_SHOW_EDIT_TOPIC: (state) => {
-      state.showEditTopic = !state.showEditTopic
     },
     // tasks
     EDIT_TASK: (state, { task }) => {
@@ -140,6 +139,14 @@ function findObjectInData (id) {
   })
   return index
 }
-
+function editTopicFromServer (topic) {
+  topic.on = true
+  console.log(topic.color)
+  if (topic.color[0] != '#') {
+    topic.color = '#'+topic.color
+  }
+  console.log(topic.color)
+  return topic
+}
 
 export default store

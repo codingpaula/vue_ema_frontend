@@ -46,16 +46,13 @@ export default {
   props: [ 'task', 'color', 'dimensions' ],
   data: function () {
     return {
-      // style stuff for description
-      fontColor: fontString + this.color,
       circle: null,
       group: null,
       layer: null,
       stage: null,
-      // config for canvas element
-      configGroup: {
-        x: this.due2x(),
-        y: this.imp2y(),
+      mouseOver: false,
+      active: false,
+      configGroupHalf: {
         draggable: true,
         drawBorder: true,
         dragBoundFunc: function(pos) {
@@ -64,21 +61,80 @@ export default {
             y: pos.y
           }
         }
-      },
-      configTitle: {
+      }
+    }
+  },
+  computed: {
+    // config for canvas element
+    x: function () {
+      var today = new Date()
+      var relDate = 1 - ((Date.parse(this.task.due_date)-today)/(24*60*60*10000))
+      var newDue = relDate > 1 ? this.dimensions.width : relDate*this.dimensions.width
+      return Math.round(newDue)
+    },
+    y: function () {
+      var y = this.dimensions.height-(this.dimensions.height/100)*this.task.importance
+      if (y > this.dimensions.height) {
+        return this.dimensions.height
+      } else if (y < 0) {
+        return 0
+      } else {
+        return y
+      }
+    },
+    configGroup: function () {
+      return {
+        draggable: this.configGroupHalf.draggable,
+        drawBorder: this.configGroupHalf.drawBorder,
+        dragBoundFunc: this.configGroupHalf.dragBoundFunc,
+        x: this.x,
+        y: this.y,
+      }
+    },
+    configTitle: function () {
+      return {
         text: this.task.name,
         x: 10,
-        y: 10,
+        y: 12,
         fontSize: 15,
         fill: this.color
-      },
-      configTask: {
-        radius: 15,
-        fill: this.color,
-        stroke: this.color,
-        strokeWidth: 1,
-        opacity: 0.8
       }
+    },
+    lighterShade: function () {
+      return this.shadeColor(this.color, 14)
+    },
+    darkerShade: function () {
+      return this.shadeColor(this.color, 5)
+    },
+    fill: function () {
+      if (this.mouseOver) return this.color
+      if (!this.mouseOver) return this.lighterShade
+    },
+    stroke: function () {
+      if (this.active) return this.darkerShade
+      if (!this.active) return this.color
+    },
+    configTask: function () {
+      return {
+        radius: 15,
+        fill: this.fill,
+        stroke: this.stroke,
+        strokeWidth: 5,
+        //opacity: 0.8
+      }
+    },
+    fontColor: function() {
+      return fontString + this.color
+    },
+    // styles with topic color and calculated values
+    styleDiv () {
+      var fontColor = 'color: ' + this.color + ';'
+      var border = 'border-color: ' + this.color + ';'
+      var impYValue = 'top: ' + this.calcImpY() + ';'
+      var dueXValue = 'right: ' + this.calcDueX() + ';'
+      var result = fontColor + ' ' + border + ' '  + impYValue + ' ' + dueXValue
+      console.log(result)
+      return result
     }
   },
   mounted () {
@@ -96,37 +152,10 @@ export default {
     stars: function (number) {
       return this.task.importance < number ? true : false
     },
-    // TODO include size of matrix canvas
-    imp2y: function () {
-      var y = this.dimensions.height-(this.dimensions.height/100)*this.task.importance
-      if (y > this.dimensions.height) return this.dimensions.height
-      if (y < 0) return 0
-      return y
-    },
     y2imp: function (y) {
-      console.log(y)
-      var newImp = Math.round((this.dimensions.height-y)/(this.dimensions.height/100))
-      this.task.importance = newImp
-      console.log(newImp)
-      console.log(this.task)
-      this.configGroup.y = this.imp2y()
-    },
-    // TODO include size of matrix canvas
-    // TODO how to transform dates into numbers?
-    due2x: function () {
-      // 12.05.
-      var today = new Date()
-      // 15.05.
-      var parsedDate = Date.parse(this.task.due_date)
-      // 15.05. - 12.05 = 3 days
-      var diffDate = parsedDate-today
-      // 10 days
-      var maxDateMSecs = 10 * 24 * 60 * 60 * 1000
-      // 3 days / 10 days = 0.3
-      var relDate = 1 - diffDate/maxDateMSecs
-      if (relDate > 1) relDate = 1
-      var newDue = relDate*this.dimensions.width
-      return Math.round(newDue)
+      return Math.round((this.dimensions.height-y)/(this.dimensions.height/100))
+      //this.task.importance = newImp
+      //this.configGroup.y = this.imp2y()
     },
     // TODO add request to change task
     alertDragEnd: function () {
@@ -137,29 +166,59 @@ export default {
         this.stage = this.layer.parent
       }
       var mousePos = this.stage.getPointerPosition()
-      this.y2imp(mousePos.y)
-      this.$store.dispatch('UPDATE_TASK', this.task)
+      var newTask = this.task
+      newTask.importance = this.y2imp(mousePos.y)
+      this.$store.dispatch('UPDATE_TASK', newTask)
     },
     mouseOverDot: function () {
-      // this.configTask.opacity = 1
-      this.configTask.fill =
+      this.mouseOver = true
     },
     mouseOutDot: function () {
-      this.configTask.opacity = 0.8
+      this.mouseOver = false
+    },
+    comp2hex: function (comp) {
+      var hex = comp.toString(16)
+      return hex.length == 1 ? "0" + hex : hex
+    },
+    hex2rgb: function (hex) {
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null
+    },
+    rgb2hex: function (r, g, b) {
+      return '#' + this.comp2hex(r) + this.comp2hex(g) + this.comp2hex(b);
+    },
+    // takes hex, converts it to shade percentage and serves back a hex
+    // darker: 0 (black), 1 - 10 (darker), 11 (middle)
+    // lighter: 22 (white), 12 - 21 (lighter), 11 (middle)
+    shadeColor: function (hex, shade) {
+      var rgb = this.hex2rgb(hex)
+      if (shade < 12) {
+        // f(x) = 22 * middle / 11 * shade/22
+        return this.rgb2hex(
+          Math.round(this.darkerComp(rgb.r, shade)),
+          Math.round(this.darkerComp(rgb.g, shade)),
+          Math.round(this.darkerComp(rgb.b, shade))
+        )
+      } else {
+        // f(x) = 2*(255-middle)*shade/22 + 2*middle-255
+        return this.rgb2hex(
+          Math.round(this.lighterComp(rgb.r, shade)),
+          Math.round(this.lighterComp(rgb.g, shade)),
+          Math.round(this.lighterComp(rgb.b, shade))
+        )
+      }
+    },
+    darkerComp: function (rgb, shade) {
+      return 22 * rgb / 11 * shade/22
+    },
+    lighterComp: function (rgb, shade) {
+      return 2 * (255 - rgb) * shade/22 + 2*rgb - 255;
     }
   },
-  computed: {
-    // styles with topic color and calculated values
-    styleDiv () {
-      var fontColor = 'color: ' + this.color + ';'
-      var border = 'border-color: ' + this.color + ';'
-      var impYValue = 'top: ' + this.calcImpY() + ';'
-      var dueXValue = 'right: ' + this.calcDueX() + ';'
-      var result = fontColor + ' ' + border + ' '  + impYValue + ' ' + dueXValue
-      console.log(result)
-      return result
-    }
-  }
 }
 </script>
 

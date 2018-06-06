@@ -12,8 +12,7 @@
         v-for="topic in topics"
         :key="topic.id"
         v-bind:topic="topic"
-        v-bind:dimensions="dimensions"
-        v-show="topic.on">
+        v-bind:dimensions="dimensions">
       </m-matrix-topic>
     </v-stage>
   </div>
@@ -92,8 +91,9 @@ export default {
         visible: true
       }
     }
-  },
+  }
 }
+//<!--v-show="topic.on"-->
 </script>
 
 <style lang="css">
